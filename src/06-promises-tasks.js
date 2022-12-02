@@ -28,8 +28,18 @@
  *      .catch((error) => console.log(error.message)) // 'Error: Wrong parameter is passed!
  *                                                    //  Ask her again.';
  */
-function willYouMarryMe(/* isPositiveAnswer */) {
-  throw new Error('Not implemented');
+function willYouMarryMe(isPositiveAnswer) {
+  return new Promise((resolve, reject) => {
+    if (isPositiveAnswer === true) {
+      resolve('Hooray!!! She said "Yes"!');
+    }
+    if (isPositiveAnswer === false) {
+      resolve('Oh no, she said "No".');
+    }
+    if (typeof isPositiveAnswer !== 'boolean') {
+      reject(new Error('Wrong parameter is passed! Ask her again.'));
+    }
+  });
 }
 
 
@@ -48,8 +58,8 @@ function willYouMarryMe(/* isPositiveAnswer */) {
  *    })
  *
  */
-function processAllPromises(/* array */) {
-  throw new Error('Not implemented');
+function processAllPromises(array) {
+  return Promise.all(array).then((response) => response);
 }
 
 /**
@@ -71,8 +81,8 @@ function processAllPromises(/* array */) {
  *    })
  *
  */
-function getFastestPromise(/* array */) {
-  throw new Error('Not implemented');
+function getFastestPromise(array) {
+  return Promise.race(array).then((response) => response);
 }
 
 /**
@@ -92,9 +102,30 @@ function getFastestPromise(/* array */) {
  *    });
  *
  */
-function chainPromises(/* array, action */) {
+function chainPromises(/* array, callback */) {
+  // const results = [];
+  // let count = array.length;
+  // return new Promise((resolve) => {
+  //   array.forEach((prom, ind) => {
+  //     prom.then((response) => {
+  //       results[ind] = response;
+  //       count -= 1;
+  //     }, () => {
+  //       count -= 1;
+  //       return false;
+  //     });
+  //     if (count === 0) {
+  //       resolve(results.reduce(callback));
+  //     }
+  //   });
+  // });
+
+  // return array.reduce((acc, prom) => acc.then((accResponse) => {
+  //   prom.then((promResponse) => [...accResponse, ...promResponse], () => false);
+  // }), Promise.resolve([]).then((res) => res.reduce(callback)));
   throw new Error('Not implemented');
 }
+
 
 module.exports = {
   willYouMarryMe,
