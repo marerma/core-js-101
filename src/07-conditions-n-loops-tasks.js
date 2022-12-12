@@ -1,3 +1,5 @@
+// @ts-nocheck
+/* eslint-disable no-param-reassign */
 /* *************************************************************************************************
  *                                                                                                *
  * Please read the following tutorial before implementing tasks:                                   *
@@ -302,8 +304,21 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const arr = Array.from(String(ccn), Number);
+  let sum = 0;
+  let secondEl = false;
+  for (let i = arr.length - 1; i >= 0; i -= 1) {
+    const current = arr[i];
+    if (secondEl) {
+      const multy = current * 2 > 9 ? (current * 2) - 9 : (current * 2);
+      sum += multy;
+    } else {
+      sum += current;
+    }
+    secondEl = !secondEl;
+  }
+  return sum % 10 === 0;
 }
 
 /**
@@ -412,17 +427,20 @@ function toNaryString(num, n) {
  */
 function getCommonDirectoryPath(path) {
   const result = [];
-  const newPath = path.map((el) => el.split('/'));
-  for (let i = 1; i < newPath.length; i += 1) {
-    const a = newPath[0].filter((el) => newPath[i].includes(el));
-    result.push(a);
-  }
-  result.sort((a, b) => a.length - b.length);
-  if (result[0] === 0) {
-    return '';
-  } return `${result[0].join('/')}/`;
+  const newPath = path
+    .map((el) => el.split('/'))
+    .sort((a, b) => a.length - b.length);
 
-  // throw new Error('Not implemented');
+  for (let k = 0; k < newPath[0].length; k += 1) {
+    const symbol = newPath[0][k];
+    const answer = newPath.every((el) => el.includes(symbol));
+    if (answer) {
+      result.push(symbol);
+    }
+  }
+  if (result.length !== 0) {
+    return result.length === 1 ? '/' : `${result.join('/')}/`;
+  } return '';
 }
 
 
@@ -444,10 +462,24 @@ function getCommonDirectoryPath(path) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(a, b) {
+  const arrRes = [];
+  for (let i = 0; i < a.length; i += 1) {
+    const elArr = [];
+    for (let k = 0; k < b[i].length; k += 1) {
+      let sum = 0;
+      for (let j = 0; j < a[i].length; j += 1) {
+        const el1 = a[i][j]; // проходим по каждому элементу внутри строки матрицы а
+        const el2 = b[j][k]; // проходим по каждому элементу внутри столбца матрицы b
+        const resEl = el1 * el2;
+        sum += resEl;
+      }
+      elArr.push(sum);
+    }
+    arrRes.push(elArr);
+  }
+  return arrRes;
 }
-
 
 /**
  * Returns the evaluation of the specified tic-tac-toe position.
